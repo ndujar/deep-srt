@@ -1,3 +1,3 @@
 FROM base-srt:v1
 RUN bin/bash
-CMD ./srt-live-transmit srt://:4201 udp://1235 -v
+CMD ./srt/build/srt-live-transmit srt://:4201 udp://1235 -v
