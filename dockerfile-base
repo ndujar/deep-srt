@@ -1,0 +1,14 @@
+FROM ubuntu:latest
+
+RUN apt-get update 
+# Get git and wget
+RUN apt-get install git -y 
+RUN apt-get install wget -y 
+# Get cmake and compiler tools
+RUN apt-get install build-essential cmake -y
+RUN apt-get install libssl-dev -y
+# Get ffmpeg
+RUN apt-get install ffmpeg -y
+# Get srt
+RUN git clone https://github.com/Haivision/srt.git 
+RUN cd srt && mkdir build && cd build && cmake ../ && make
