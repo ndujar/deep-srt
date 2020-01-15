@@ -12,4 +12,10 @@ CMD ffmpeg -f lavfi \
 -preset fast \
 -f mpegts \
 "udp://127.0.0.1:1234?pkt_size=1316"
-CMD ./srt/build/srt-live-transmit udp://localhost:1234 srt://34.67.188.56:1234 -v
+ENV MEDIUM=srt
+ENV RECEIVER_ADDRESS=127.0.0.1
+ENV RECEIVER_PORT=1235
+ENV REPORT_FREQUENCY=1000
+CMD echo "'Transmitting to $RECEIVER_ADDRESS in port $RECEIVER_PORT'"
+CMD echo "'Report frequency set to $REPORT_FREQUENCY milliseconds'"
+CMD ./srt/build/srt-live-transmit udp://localhost:1234 $MEDIUM://$RECEIVER_ADDRESS:$RECEIVER_PORT -v -stats-report-frequency $REPORT_FREQUENCY -statsout -pf csv

@@ -1,3 +1,10 @@
 FROM base-srt:v1
-RUN bin/bash
-CMD ./srt/build/srt-live-transmit srt://:1234 udp://224.0.0.1:2255 -stats-report-frequency 1 -s 100 -statsout data.csv -pf csv
+ENV REPORT_FREQUENCY=1
+ENV INPUT_PORT=1234
+ENV OUTPUT_MEDIUM=udp
+ENV OUTPUT_TARGET=224.0.0.1
+ENV OUTPUT_PORT=2255
+CMD echo "'Listening in port $INPUT_PORT'"
+CMD echo "'Transmitting $OUTPUT_MEDIUM signal to $OUTPUT_TARGET in port $OUTPUT_PORT'"
+CMD echo "'Report frequency set to $REPORT_FREQUENCY milliseconds'"
+CMD ./srt/build/srt-live-transmit srt://:$INPUT_PORT $OUTPUT_MEDIUM://$OUTPUT_TARGET:$OUTPUT_PORT -stats-report-frequency $REPORT_FREQUENCY -statsout -pf csv
