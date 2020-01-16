@@ -1,0 +1,1 @@
+Transmitter launched connecting to {{ .Values.receiverAddress }}:{{ .Values.receiverPort }}

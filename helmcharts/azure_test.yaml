@@ -1,0 +1,6 @@
+image:
+  registry: "olympia.azurecr.io"
+receiverAddress: test1r-deep-srt-receiver
+receiverService:
+  name: "test1r-deep-srt-receiver"
+
