@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "deep-srt-transmitter.fullname" . }}
+  labels:
+{{ include "deep-srt-transmitter.labels" . | indent 4 }}
+spec:
+  template:
+    metadata:
+      labels:
+{{ include "deep-srt-transmitter.labels" . | indent 8 }}
+    spec:
+      restartPolicy: Never
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ include "registryandrepository" . }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MEDIUM
+              value: "srt"
+            - name: RECEIVER_ADDRESS
+              value: {{ .Values.receiverAddress | quote }}
+            - name: RECEIVER_PORT
+              value: {{ .Values.receiverPort | quote }}
+            - name: REPORT_FREQUENCY
+              value: {{ .Values.reportFrequency | quote }}
+            - name: LATENCY
+              value: {{ .Values.latency | quote }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

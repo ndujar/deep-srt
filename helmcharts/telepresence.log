@@ -1,0 +1,351 @@
+   0.0 TEL | Telepresence 0.103 launched at Thu Jan 16 12:38:53 2020
+   0.0 TEL |   /usr/bin/telepresence
+   0.0 TEL | uname: uname_result(system='Linux', node='epicfermi', release='4.4.0-171-generic', version='#200-Ubuntu SMP Tue Dec 3 11:04:55 UTC 2019', machine='x86_64', processor='x86_64')
+   0.0 TEL | Platform: linux
+   0.0 TEL | WSL: False
+   0.0 TEL | Python 3.5.2 (default, Oct  8 2019, 13:06:37)
+   0.0 TEL | [GCC 5.4.0 20160609]
+   0.0 TEL | BEGIN SPAN main.py:40(main)
+   0.0 TEL | BEGIN SPAN startup.py:83(set_kube_command)
+   0.0 TEL | Found kubectl -> /snap/bin/kubectl
+   0.0 TEL | [1] Capturing: kubectl version --short
+   0.7 TEL | [1] captured in 0.65 secs.
+   0.7 TEL | [2] Capturing: kubectl config current-context
+   0.7 TEL | [2] captured in 0.08 secs.
+   0.7 TEL | [3] Capturing: kubectl config view -o json
+   0.8 TEL | [3] captured in 0.07 secs.
+   0.8 TEL | [4] Capturing: kubectl --context olympiaCluster get ns olympia
+   1.3 TEL | [4] captured in 0.53 secs.
+   1.3 TEL | [5] Capturing: kubectl api-versions
+   2.0 TEL | [5] captured in 0.69 secs.
+   2.0 TEL | Command: kubectl 1.17.0
+   2.0 TEL | Context: olympiaCluster, namespace: olympia, version: 1.14.8
+   2.0 >>> | Warning: kubectl 1.17.0 may not work correctly with cluster version 1.14.8 due to the version discrepancy. See https://kubernetes.io/docs/setup/version-skew-policy/ for more information.
+   2.0 >>> | 
+   2.0 TEL | END SPAN startup.py:83(set_kube_command)    2.0s
+   2.0 TEL | Found ssh -> /usr/bin/ssh
+   2.0 TEL | [6] Capturing: ssh -V
+   2.0 TEL | [6] captured in 0.01 secs.
+   2.0 TEL | Found bash -> /bin/bash
+   2.0 TEL | Found sshuttle-telepresence -> /usr/libexec/sshuttle-telepresence
+   2.0 TEL | Found conntrack -> /usr/sbin/conntrack
+   2.0 TEL | Found iptables -> /sbin/iptables
+   2.0 TEL | Found sudo -> /usr/bin/sudo
+   2.0 TEL | [7] Running: sudo -n echo -n
+   2.0   7 | sudo: se requiere una contraseña
+   2.0 TEL | [7] exit 1 in 0.01 secs.
+   2.0 >>> | How Telepresence uses sudo: https://www.telepresence.io/reference/install#dependencies
+   2.0 >>> | Invoking sudo. Please enter your sudo password.
+   2.0 TEL | [8] Running: sudo echo -n
+  68.6 TEL | [8] ran in 66.58 secs.
+  68.6 TEL | [9] Capturing: sudo iptables --list
+  68.7 TEL | [9] captured in 0.02 secs.
+  68.7 >>> | Starting proxy with method 'vpn-tcp', which has the following limitations: All processes are affected, only one telepresence can run per machine, and you can't use other VPNs. You may need to add cloud hosts and headless services with --also-proxy. For a full list of method limitations see https://telepresence.io/reference/methods.html
+  68.7 TEL | Found sshfs -> /usr/bin/sshfs
+  68.7 TEL | Found fusermount -> /bin/fusermount
+  68.7 >>> | Volumes are rooted at $TELEPRESENCE_ROOT. See https://telepresence.io/howto/volumes.html for details.
+  68.7 TEL | [10] Running: kubectl --context olympiaCluster --namespace olympia get pods telepresence-connectivity-check --ignore-not-found
+  69.4 TEL | [10] ran in 0.72 secs.
+  69.9 TEL | Scout info: {'latest_version': '0.103', 'notices': [], 'application': 'telepresence'}
+  69.9 TEL | BEGIN SPAN deployment.py:108(create_new_deployment)
+  69.9 >>> | Starting network proxy to cluster using new Deployment telepresence-1579174733-041732-25944
+  69.9 TEL | [11] Running: kubectl --context olympiaCluster --namespace olympia delete --ignore-not-found svc,deploy --selector=telepresence=436ad2d429c34f8698ffcec3361d87b3
+  70.6  11 | No resources found
+  70.6 TEL | [11] ran in 0.63 secs.
+  70.6 TEL | [12] Running: kubectl --context olympiaCluster --namespace olympia run --restart=Always --limits=cpu=1000m,memory=256Mi --requests=cpu=25m,memory=64Mi telepresence-1579174733-041732-25944 --image=datawire/telepresence-k8s:0.103 --labels=telepresence=436ad2d429c34f8698ffcec3361d87b3
+  71.1  12 | kubectl run --generator=deployment/apps.v1 is DEPRECATED and will be removed in a future version. Use kubectl run --generator=run-pod/v1 or kubectl create instead.
+  71.2  12 | deployment.apps/telepresence-1579174733-041732-25944 created
+  71.2 TEL | [12] ran in 0.64 secs.
+  71.2 TEL | END SPAN deployment.py:108(create_new_deployment)    1.3s
+  71.2 TEL | BEGIN SPAN remote.py:142(get_remote_info)
+  71.2 TEL | BEGIN SPAN remote.py:75(get_deployment_json)
+  71.2 TEL | [13] Capturing: kubectl --context olympiaCluster --namespace olympia get deployment -o json --selector=telepresence=436ad2d429c34f8698ffcec3361d87b3
+  71.8 TEL | [13] captured in 0.56 secs.
+  71.8 TEL | END SPAN remote.py:75(get_deployment_json)    0.6s
+  71.8 TEL | Searching for Telepresence pod:
+  71.8 TEL |   with name telepresence-1579174733-041732-25944-*
+  71.8 TEL |   with labels {'telepresence': '436ad2d429c34f8698ffcec3361d87b3'}
+  71.8 TEL | [14] Capturing: kubectl --context olympiaCluster --namespace olympia get pod -o json --selector=telepresence=436ad2d429c34f8698ffcec3361d87b3
+  72.3 TEL | [14] captured in 0.52 secs.
+  72.3 TEL | Checking telepresence-1579174733-041732-25944-84db7c77dd-gp2sx
+  72.3 TEL | Looks like we've found our pod!
+  72.3 TEL | BEGIN SPAN remote.py:104(wait_for_pod)
+  72.3 TEL | [15] Capturing: kubectl --context olympiaCluster --namespace olympia get pod telepresence-1579174733-041732-25944-84db7c77dd-gp2sx -o json
+  72.8 TEL | [15] captured in 0.52 secs.
+  73.1 TEL | [16] Capturing: kubectl --context olympiaCluster --namespace olympia get pod telepresence-1579174733-041732-25944-84db7c77dd-gp2sx -o json
+  73.7 TEL | [16] captured in 0.67 secs.
+  74.0 TEL | [17] Capturing: kubectl --context olympiaCluster --namespace olympia get pod telepresence-1579174733-041732-25944-84db7c77dd-gp2sx -o json
+  74.5 TEL | [17] captured in 0.52 secs.
+  74.5 TEL | END SPAN remote.py:104(wait_for_pod)    2.2s
+  74.5 TEL | END SPAN remote.py:142(get_remote_info)    3.3s
+  74.5 TEL | BEGIN SPAN connect.py:37(connect)
+  74.5 TEL | [18] Launching kubectl logs: kubectl --context olympiaCluster --namespace olympia logs -f telepresence-1579174733-041732-25944-84db7c77dd-gp2sx --container telepresence-1579174733-041732-25944 --tail=10
+  74.5 TEL | [19] Launching kubectl port-forward: kubectl --context olympiaCluster --namespace olympia port-forward telepresence-1579174733-041732-25944-84db7c77dd-gp2sx 37123:8022
+  74.5 TEL | [20] Running: ssh -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 /bin/true
+  74.5 TEL | [20] exit 255 in 0.01 secs.
+  74.8 TEL | [21] Running: ssh -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 /bin/true
+  74.8 TEL | [21] exit 255 in 0.01 secs.
+  75.0 TEL | [22] Running: ssh -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 /bin/true
+  75.0 TEL | [22] exit 255 in 0.01 secs.
+  75.2  18 | 2020-01-16T11:40:07+0000 [-] Loading ./forwarder.py...
+  75.2  18 | 2020-01-16T11:40:07+0000 [-] /etc/resolv.conf changed, reparsing
+  75.2  18 | 2020-01-16T11:40:07+0000 [-] Resolver added ('10.0.0.10', 53) to server list
+  75.2  18 | 2020-01-16T11:40:07+0000 [-] SOCKSv5Factory starting on 9050
+  75.2  18 | 2020-01-16T11:40:07+0000 [socks.SOCKSv5Factory#info] Starting factory <socks.SOCKSv5Factory object at 0x7ff7f9d8abe0>
+  75.2  18 | 2020-01-16T11:40:07+0000 [-] DNSDatagramProtocol starting on 9053
+  75.2  18 | 2020-01-16T11:40:07+0000 [-] Starting protocol <twisted.names.dns.DNSDatagramProtocol object at 0x7ff7f9d8af98>
+  75.2  18 | 2020-01-16T11:40:07+0000 [-] Loaded.
+  75.2  18 | 2020-01-16T11:40:07+0000 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 19.7.0 (/usr/bin/python3.6 3.6.8) starting up.
+  75.3 TEL | [23] Running: ssh -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 /bin/true
+  75.3 TEL | [23] exit 255 in 0.01 secs.
+  75.3  18 | 2020-01-16T11:40:07+0000 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+  75.5 TEL | [24] Running: ssh -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 /bin/true
+  75.6 TEL | [24] exit 255 in 0.01 secs.
+  75.8 TEL | [25] Running: ssh -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 /bin/true
+  75.8  19 | Forwarding from 127.0.0.1:37123 -> 8022
+  75.8  19 | Forwarding from [::1]:37123 -> 8022
+  75.8 TEL | [25] exit 255 in 0.01 secs.
+  76.1 TEL | [26] Running: ssh -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 /bin/true
+  76.1  19 | Handling connection for 37123
+  77.2 TEL | [26] ran in 1.12 secs.
+  77.2 >>> | 
+  77.2 >>> | No traffic is being forwarded from the remote Deployment to your local machine. You can use the --expose option to specify which ports you want to forward.
+  77.2 >>> | 
+  77.2 TEL | Launching Web server for proxy poll
+  77.2 TEL | [27] Launching SSH port forward (socks and proxy poll): ssh -N -oServerAliveInterval=1 -oServerAliveCountMax=10 -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 -L127.0.0.1:43560:127.0.0.1:9050 -R9055:127.0.0.1:37488
+  77.2  19 | Handling connection for 37123
+  77.2 TEL | END SPAN connect.py:37(connect)    2.7s
+  77.2 TEL | BEGIN SPAN remote_env.py:28(get_remote_env)
+  77.2 TEL | [28] Capturing: kubectl --context olympiaCluster --namespace olympia exec telepresence-1579174733-041732-25944-84db7c77dd-gp2sx --container telepresence-1579174733-041732-25944 -- python3 podinfo.py
+  78.9 TEL | [28] captured in 1.72 secs.
+  78.9 TEL | END SPAN remote_env.py:28(get_remote_env)    1.7s
+  78.9 TEL | BEGIN SPAN mount.py:30(mount_remote_volumes)
+  78.9 TEL | [29] Running: sshfs -p 37123 -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null telepresence@127.0.0.1:/ /tmp/tel-a1ozskau/fs
+  78.9  19 | Handling connection for 37123
+  80.3 TEL | [29] ran in 1.39 secs.
+  80.3 TEL | END SPAN mount.py:30(mount_remote_volumes)    1.4s
+  80.3 TEL | BEGIN SPAN vpn.py:262(connect_sshuttle)
+  80.3 TEL | BEGIN SPAN vpn.py:73(get_proxy_cidrs)
+  80.3 TEL | END SPAN vpn.py:73(get_proxy_cidrs)    0.0s
+  80.3 TEL | [30] Launching sshuttle: sshuttle-telepresence -v --dns --method nat -e 'ssh -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null' -r telepresence@127.0.0.1:37123 --to-ns 127.0.0.1:9053 10.0.0.0/16 10.244.1.0/24 10.244.0.0/24 10.244.2.0/24
+  80.3 TEL | BEGIN SPAN vpn.py:285(connect_sshuttle,sshuttle-wait)
+  80.3 TEL | Wait for vpn-tcp connection: hellotelepresence-0
+  80.3 TEL | [31] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-0")'
+  80.4 TEL | [31] exit 1 in 0.12 secs.
+  80.4 TEL | [32] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-0.a.sanity.check.telepresence.io")'
+  80.6 TEL | [32] exit 1 in 0.17 secs.
+  80.7 TEL | Wait for vpn-tcp connection: hellotelepresence-1
+  80.7 TEL | [33] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-1")'
+  80.8  30 | Starting sshuttle proxy.
+  80.8 TEL | [33] exit 1 in 0.12 secs.
+  80.8 TEL | [34] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-1.a.sanity.check.telepresence.io")'
+  81.0 TEL | [34] exit 1 in 0.22 secs.
+  81.1 TEL | Wait for vpn-tcp connection: hellotelepresence-2
+  81.1 TEL | [35] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-2")'
+  81.3 TEL | [35] exit 1 in 0.17 secs.
+  81.3 TEL | [36] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-2.a.sanity.check.telepresence.io")'
+  81.8  30 | firewall manager: Starting firewall with Python version 3.5.2
+  81.8  30 | firewall manager: ready method name nat.
+  81.8  30 | IPv6 enabled: False
+  81.8  30 | UDP enabled: False
+  81.8  30 | DNS enabled: True
+  81.8  30 | TCP redirector listening on ('127.0.0.1', 12300).
+  81.8  30 | DNS listening on ('127.0.0.1', 12300).
+  81.8  30 | Starting client with Python version 3.5.2
+  81.8  30 | c : connecting to server...
+  81.8  19 | Handling connection for 37123
+  81.9 TEL | [36] exit 1 in 0.62 secs.
+  82.0 TEL | Wait for vpn-tcp connection: hellotelepresence-3
+  82.0 TEL | [37] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-3")'
+  82.1 TEL | [37] exit 1 in 0.12 secs.
+  82.1 TEL | [38] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-3.a.sanity.check.telepresence.io")'
+  82.3  30 | Warning: Permanently added '[127.0.0.1]:37123' (ECDSA) to the list of known hosts.
+  82.7 TEL | [38] exit 1 in 0.62 secs.
+  82.8 TEL | Wait for vpn-tcp connection: hellotelepresence-4
+  82.8 TEL | [39] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-4")'
+  83.0 TEL | [39] exit 1 in 0.12 secs.
+  83.0 TEL | [40] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-4.a.sanity.check.telepresence.io")'
+  83.1  30 | Starting server with Python version 3.6.8
+  83.1  30 |  s: latency control setting = True
+  83.1  30 |  s: available routes:
+  83.1  30 |  s:   2/10.244.0.0/24
+  83.1  30 | c : Connected.
+  83.1  30 | firewall manager: setting up.
+  83.2  30 | >> iptables -t nat -N sshuttle-12300
+  83.2  30 | >> iptables -t nat -F sshuttle-12300
+  83.2  30 | >> iptables -t nat -I OUTPUT 1 -j sshuttle-12300
+  83.2  30 | >> iptables -t nat -I PREROUTING 1 -j sshuttle-12300
+  83.2  30 | >> iptables -t nat -A sshuttle-12300 -j RETURN --dest 127.0.0.1/32 -p tcp
+  83.2  30 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.244.1.0/24 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+  83.2  30 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.244.0.0/24 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+  83.2  30 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.244.2.0/24 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+  83.2  30 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 10.0.0.0/16 -p tcp --to-ports 12300 -m ttl ! --ttl 42
+  83.2  30 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 192.168.0.2/32 -p udp --dport 53 --to-ports 12300 -m ttl ! --ttl 42
+  83.2  30 | >> iptables -t nat -A sshuttle-12300 -j REDIRECT --dest 224.0.0.252/32 -p udp --dport 5355 --to-ports 12300 -m ttl ! --ttl 42
+  83.2  30 | conntrack v1.4.3 (conntrack-tools): 0 flow entries have been deleted.
+  83.2  30 | c : DNS request from ('192.168.0.68', 48045) to None: 68 bytes
+  83.3  18 | 2020-01-16T11:40:16+0000 [stdout#info] Sanity check: b'hellotelepresence-4.a.sanity.check.telepresence.io'
+  83.4 TEL | [40] exit 1 in 0.47 secs.
+  83.5 TEL | Wait for vpn-tcp connection: hellotelepresence-5
+  83.5 TEL | [41] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-5")'
+  83.6  30 | c : DNS request from ('192.168.0.68', 59983) to None: 37 bytes
+  83.7  18 | 2020-01-16T11:40:16+0000 [stdout#info] Set DNS suffix we filter out to: [()]
+  83.7  18 | 2020-01-16T11:40:16+0000 [stdout#info] Result for b'hellotelepresence-5' is ['127.0.0.1']
+  83.7 TEL | [41] captured in 0.22 secs.
+  83.7 TEL | Resolved hellotelepresence-5. 2 more...
+  83.7 TEL | [42] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-5.a.sanity.check.telepresence.io")'
+  83.8  30 | c : DNS request from ('192.168.0.68', 50978) to None: 68 bytes
+  83.9  18 | 2020-01-16T11:40:16+0000 [stdout#info] Sanity check: b'hellotelepresence-5.a.sanity.check.telepresence.io'
+  83.9  30 | c : DNS request from ('192.168.0.68', 57819) to None: 68 bytes
+  84.1  18 | 2020-01-16T11:40:17+0000 [stdout#info] Sanity check: b'hellotelepresence-5.a.sanity.check.telepresence.io'
+  84.2 TEL | [42] exit 1 in 0.42 secs.
+  84.3 TEL | Wait for vpn-tcp connection: hellotelepresence-6
+  84.3 TEL | [43] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-6")'
+  84.3  30 | c : DNS request from ('192.168.0.68', 58622) to None: 37 bytes
+  84.4  18 | 2020-01-16T11:40:17+0000 [stdout#info] Result for b'hellotelepresence-6' is ['127.0.0.1']
+  84.5 TEL | [43] captured in 0.22 secs.
+  84.5 TEL | Resolved hellotelepresence-6. 1 more...
+  84.5 TEL | [44] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-6.a.sanity.check.telepresence.io")'
+  84.5  30 | c : DNS request from ('192.168.0.68', 38382) to None: 68 bytes
+  84.5  30 | c : DNS request from ('192.168.0.68', 47019) to None: 43 bytes
+  84.5  30 | c : DNS request from ('192.168.0.68', 47019) to None: 43 bytes
+  84.6  18 | 2020-01-16T11:40:17+0000 [stdout#info] Sanity check: b'hellotelepresence-6.a.sanity.check.telepresence.io'
+  84.6  30 | c : DNS request from ('192.168.0.68', 52438) to None: 68 bytes
+  84.7  18 | 2020-01-16T11:40:17+0000 [stdout#info] A query: b'whoslooking.herokuapp.com'
+  84.7  18 | 2020-01-16T11:40:17+0000 [stdout#info] AAAA query, sending back A instead: b'whoslooking.herokuapp.com'
+  84.7  18 | 2020-01-16T11:40:17+0000 [stdout#info] A query: b'whoslooking.herokuapp.com'
+  84.7  18 | 2020-01-16T11:40:17+0000 [stdout#info] Result for b'whoslooking.herokuapp.com' is ['52.54.218.210', '34.195.100.73', '52.202.176.41', '3.225.126.196', '54.173.86.84', '34.207.33.232', '52.86.253.3', '54.156.120.63']
+  84.7  18 | 2020-01-16T11:40:17+0000 [stdout#info] Result for b'whoslooking.herokuapp.com' is ['54.173.86.84', '52.54.218.210', '52.86.253.3', '34.207.33.232', '54.156.120.63', '34.195.100.73', '3.225.126.196', '52.202.176.41']
+  84.8  18 | 2020-01-16T11:40:17+0000 [stdout#info] Sanity check: b'hellotelepresence-6.a.sanity.check.telepresence.io'
+  84.9 TEL | [44] exit 1 in 0.42 secs.
+  85.0 TEL | Wait for vpn-tcp connection: hellotelepresence-7
+  85.0 TEL | [45] Capturing: python3 -c 'import socket; socket.gethostbyname("hellotelepresence-7")'
+  85.0  30 | c : DNS request from ('192.168.0.68', 42889) to None: 37 bytes
+  85.2  18 | 2020-01-16T11:40:18+0000 [stdout#info] Result for b'hellotelepresence-7' is ['127.0.0.1']
+  85.2 TEL | [45] captured in 0.22 secs.
+  85.2 TEL | Resolved hellotelepresence-7. 0 more...
+  85.2 TEL | END SPAN vpn.py:285(connect_sshuttle,sshuttle-wait)    4.9s
+  85.2 TEL | END SPAN vpn.py:262(connect_sshuttle)    4.9s
+  85.2 >>> | Setup complete. Launching your command.
+  85.2 TEL | Everything launched. Waiting to exit...
+  85.2 TEL | BEGIN SPAN runner.py:722(wait_for_exit)
+  87.3  30 | c : DNS request from ('192.168.0.68', 41000) to None: 31 bytes
+  87.3  30 | c : DNS request from ('192.168.0.68', 41000) to None: 31 bytes
+  87.3  30 | c : DNS request from ('192.168.0.68', 38532) to None: 31 bytes
+  87.4  30 | c : DNS request from ('192.168.0.68', 34207) to None: 39 bytes
+  87.4  30 | c : DNS request from ('192.168.0.68', 34207) to None: 39 bytes
+  87.4  30 | c : DNS request from ('192.168.0.68', 40609) to None: 39 bytes
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] A query: b'ps3.pndsn.com'
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] AAAA query, sending back A instead: b'ps3.pndsn.com'
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] A query: b'ps3.pndsn.com'
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] A query: b'ps3.pndsn.com'
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] Result for b'ps3.pndsn.com' is ['54.236.3.168', '54.236.3.170']
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] Result for b'ps3.pndsn.com' is ['54.236.3.168', '54.236.3.170']
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] Result for b'ps3.pndsn.com' is ['54.236.3.168', '54.236.3.170']
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] A query: b'outlook.office365.com'
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] AAAA query, sending back A instead: b'outlook.office365.com'
+  87.5  18 | 2020-01-16T11:40:20+0000 [stdout#info] A query: b'outlook.office365.com'
+  87.6  18 | 2020-01-16T11:40:20+0000 [stdout#info] A query: b'outlook.office365.com'
+  87.6  18 | 2020-01-16T11:40:20+0000 [stdout#info] Result for b'outlook.office365.com' is ['52.96.69.2', '52.96.88.50', '52.96.88.18', '52.96.88.98']
+  87.6  18 | 2020-01-16T11:40:20+0000 [stdout#info] Result for b'outlook.office365.com' is ['52.96.69.2', '52.96.88.50', '52.96.88.18', '52.96.88.98']
+  87.6  18 | 2020-01-16T11:40:20+0000 [stdout#info] Result for b'outlook.office365.com' is ['52.96.69.2', '52.96.88.50', '52.96.88.18', '52.96.88.98']
+  87.7  30 | c : DNS request from ('192.168.0.68', 53353) to None: 36 bytes
+  87.7  30 | c : DNS request from ('192.168.0.68', 53353) to None: 36 bytes
+  87.8  18 | 2020-01-16T11:40:20+0000 [stdout#info] A query: b'haivision.jira.com'
+  87.8  18 | 2020-01-16T11:40:20+0000 [stdout#info] AAAA query, sending back A instead: b'haivision.jira.com'
+  87.8  18 | 2020-01-16T11:40:20+0000 [stdout#info] A query: b'haivision.jira.com'
+  87.9  18 | 2020-01-16T11:40:20+0000 [stdout#info] Result for b'haivision.jira.com' is ['18.234.32.175', '18.234.32.173', '18.234.32.174']
+  87.9  18 | 2020-01-16T11:40:20+0000 [stdout#info] Result for b'haivision.jira.com' is ['18.234.32.175', '18.234.32.174', '18.234.32.173']
+  90.2  30 | c : DNS request from ('192.168.0.68', 34273) to None: 32 bytes
+  90.2  30 | c : DNS request from ('192.168.0.68', 34273) to None: 32 bytes
+  90.2  30 | c : DNS request from ('192.168.0.68', 47693) to None: 32 bytes
+  90.3  18 | 2020-01-16T11:40:23+0000 [stdout#info] A query: b'ps12.pndsn.com'
+  90.3  18 | 2020-01-16T11:40:23+0000 [stdout#info] AAAA query, sending back A instead: b'ps12.pndsn.com'
+  90.3  18 | 2020-01-16T11:40:23+0000 [stdout#info] A query: b'ps12.pndsn.com'
+  90.3  18 | 2020-01-16T11:40:23+0000 [stdout#info] A query: b'ps12.pndsn.com'
+  90.3  18 | 2020-01-16T11:40:23+0000 [stdout#info] Result for b'ps12.pndsn.com' is ['54.236.3.170', '54.236.3.168']
+  90.3  18 | 2020-01-16T11:40:23+0000 [stdout#info] Result for b'ps12.pndsn.com' is ['54.236.3.168', '54.236.3.170']
+  90.3  18 | 2020-01-16T11:40:23+0000 [stdout#info] Result for b'ps12.pndsn.com' is ['54.236.3.170', '54.236.3.168']
+  91.5  30 | c : DNS request from ('192.168.0.68', 57286) to None: 26 bytes
+  91.5  30 | c : DNS request from ('192.168.0.68', 57286) to None: 26 bytes
+  91.7  18 | 2020-01-16T11:40:24+0000 [stdout#info] A query: b'receiver'
+  91.7  18 | 2020-01-16T11:40:24+0000 [stdout#info] AAAA query, sending back A instead: b'receiver'
+  91.7  18 | 2020-01-16T11:40:24+0000 [stdout#info] A query: b'receiver'
+  91.7  18 | 2020-01-16T11:40:24+0000 [stdout#info] getaddrinfo error: [Errno -2] Name does not resolve
+  91.7  18 | 2020-01-16T11:40:24+0000 [stdout#info] getaddrinfo error: [Errno -2] Name does not resolve
+  98.7 TEL | [46] Running: sudo -n echo -n
+  98.7 TEL | [46] ran in 0.01 secs.
+ 102.2  30 | c : DNS request from ('192.168.0.68', 45512) to None: 40 bytes
+ 102.2  30 | c : DNS request from ('192.168.0.68', 45512) to None: 40 bytes
+ 102.2  30 | c : DNS request from ('192.168.0.68', 34265) to None: 40 bytes
+ 105.1  18 | 2020-01-16T11:40:38+0000 [Poll#error] Failed to contact Telepresence client:
+ 105.1  18 | 2020-01-16T11:40:38+0000 [Poll#error] An error occurred while connecting: 99: Address not available.
+ 105.1  18 | 2020-01-16T11:40:38+0000 [Poll#warn] Perhaps it's time to exit?
+ 107.2  30 | c : DNS request from ('192.168.0.68', 34265) to None: 40 bytes
+ 107.2  30 | c : DNS request from ('192.168.0.68', 45512) to None: 40 bytes
+ 107.2  30 | c : DNS request from ('192.168.0.68', 45512) to None: 40 bytes
+ 109.2  30 | c : DNS request from ('192.168.0.68', 45149) to None: 33 bytes
+ 111.8  30 | Connection to 127.0.0.1 closed by remote host.
+ 111.8  27 | Connection to 127.0.0.1 closed by remote host.
+ 111.8 TEL | [27] SSH port forward (socks and proxy poll): exit 255
+ 111.8  30 | >> iptables -t nat -D OUTPUT -j sshuttle-12300
+ 111.8  30 | >> iptables -t nat -D PREROUTING -j sshuttle-12300
+ 111.8  30 | >> iptables -t nat -F sshuttle-12300
+ 111.8  30 | >> iptables -t nat -X sshuttle-12300
+ 111.8  30 | c : fatal: server died with error code 255
+ 111.9 TEL | END SPAN runner.py:722(wait_for_exit)   26.6s
+ 111.9 >>> | 
+ 111.9 >>> | Background process (SSH port forward (socks and proxy poll)) exited with return code 255. Command was:
+ 111.9 >>> |   ssh -N -oServerAliveInterval=1 -oServerAliveCountMax=10 -F /dev/null -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -q -p 37123 telepresence@127.0.0.1 -L127.0.0.1:43560:127.0.0.1:9050 -R9055:127.0.0.1:37488
+ 111.9 >>> | 
+ 111.9 >>> | Recent output was:
+ 111.9 >>> |   Connection to 127.0.0.1 closed by remote host.
+ 111.9 >>> | 
+ 111.9 >>> | 
+ 111.9 >>> | Proxy to Kubernetes exited. This is typically due to a lost connection.
+ 111.9 >>> | 
+ 111.9 TEL | EXITING with status code 255
+ 111.9 >>> | Exit cleanup in progress
+ 111.9 TEL | (Cleanup) Terminate local process
+ 111.9 TEL | Killing local process...
+ 111.9 TEL | Main process (bash --norc)
+ 111.9 TEL |  exited with code 0.
+ 111.9 TEL | (Cleanup) Kill BG process [30] sshuttle
+ 111.9 TEL | [30] sshuttle: exit -15
+ 111.9 TEL | (Cleanup) Unmount remote filesystem
+ 111.9 TEL | [47] Running: fusermount -z -u /tmp/tel-a1ozskau/fs
+ 111.9  47 | fusermount: entry for /tmp/tel-a1ozskau/fs not found in /etc/mtab
+ 111.9 TEL | [47] exit 1 in 0.00 secs.
+ 111.9 TEL | (Cleanup) Unmount remote filesystem failed:
+ 111.9 TEL | (Cleanup)   Command '['fusermount', '-z', '-u', '/tmp/tel-a1ozskau/fs']' returned non-zero exit status 1
+ 111.9 TEL | (Cleanup) Kill BG process [27] SSH port forward (socks and proxy poll)
+ 111.9 TEL | (Cleanup) Kill Web server for proxy poll
+ 112.2 TEL | (Cleanup) Kill BG process [19] kubectl port-forward
+ 112.2 TEL | [19] kubectl port-forward: exit -15
+ 112.2 TEL | (Cleanup) Kill BG process [18] kubectl logs
+ 112.2 TEL | [18] kubectl logs: exit -15
+ 112.2 TEL | Background process (kubectl logs) exited with return code -15. Command was:
+ 112.2 TEL |   kubectl --context olympiaCluster --namespace olympia logs -f telepresence-1579174733-041732-25944-84db7c77dd-gp2sx --container telepresence-1579174733-041732-25944 --tail=10
+ 112.2 TEL | 
+ 112.2 TEL | Recent output was:
+ 112.2 TEL |   2020-01-16T11:40:23+0000 [stdout#info] Result for b'ps12.pndsn.com' is ['54.236.3.168', '54.236.3.170']
+ 112.2 TEL |   2020-01-16T11:40:23+0000 [stdout#info] Result for b'ps12.pndsn.com' is ['54.236.3.170', '54.236.3.168']
+ 112.2 TEL |   2020-01-16T11:40:24+0000 [stdout#info] A query: b'receiver'
+ 112.2 TEL |   2020-01-16T11:40:24+0000 [stdout#info] AAAA query, sending back A instead: b'receiver'
+ 112.2 TEL |   2020-01-16T11:40:24+0000 [stdout#info] A query: b'receiver'
+ 112.2 TEL |   2020-01-16T11:40:24+0000 [stdout#info] getaddrinfo error: [Errno -2] Name does not resolve
+ 112.2 TEL |   2020-01-16T11:40:24+0000 [stdout#info] getaddrinfo error: [Errno -2] Name does not resolve
+ 112.2 TEL |   2020-01-16T11:40:38+0000 [Poll#error] Failed to contact Telepresence client:
+ 112.2 TEL |   2020-01-16T11:40:38+0000 [Poll#error] An error occurred while connecting: 99: Address not available.
+ 112.2 TEL |   2020-01-16T11:40:38+0000 [Poll#warn] Perhaps it's time to exit?
+ 112.2 TEL | (Cleanup) Delete new deployment
+ 112.2 >>> | Cleaning up Deployment telepresence-1579174733-041732-25944
+ 112.2 TEL | [48] Running: kubectl --context olympiaCluster --namespace olympia delete --ignore-not-found svc,deploy --selector=telepresence=436ad2d429c34f8698ffcec3361d87b3
+ 113.0  48 | deployment.extensions "telepresence-1579174733-041732-25944" deleted
+ 113.1 TEL | [48] ran in 0.88 secs.
+ 113.1 TEL | (Cleanup) Kill sudo privileges holder
+ 113.1 TEL | (Cleanup) Stop time tracking
+ 113.1 TEL | END SPAN main.py:40(main)  113.1s
+ 113.1 TEL | (Cleanup) Remove temporary directory
+ 113.1 TEL | (Cleanup) Save caches
+ 113.7 TEL | (sudo privileges holder thread exiting)
