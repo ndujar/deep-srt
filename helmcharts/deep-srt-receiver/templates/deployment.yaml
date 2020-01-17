@@ -31,6 +31,8 @@ spec:
           env:
             - name: REPORT_FREQUENCY
               value: {{ .Values.reportFrequency | quote }}
+            - name: LATENCY
+              value: {{ .Values.latency | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

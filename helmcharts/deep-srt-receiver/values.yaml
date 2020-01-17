@@ -8,13 +8,14 @@ image:
   registry: ""
   repository: deep-srt-receiver
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 reportFrequency: 1000
+latency: 120
 
 service:
   type: ClusterIP

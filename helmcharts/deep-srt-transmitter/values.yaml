@@ -8,7 +8,7 @@ image:
   registry: ""
   repository: deep-srt-transmitter
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
@@ -17,6 +17,7 @@ fullnameOverride: ""
 receiverAddress: receiver
 receiverPort: 1234
 reportFrequency: 1000
+latency: 120
 
 receiverService:
   port: 1234
