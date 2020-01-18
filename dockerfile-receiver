@@ -1,10 +1,11 @@
-FROM base-srt:v1
+FROM deep-srt-base:v1
 ENV INPUT_PORT=1234
 ENV OUTPUT_MEDIUM=udp
 ENV OUTPUT_TARGET=224.0.0.1
 ENV OUTPUT_PORT=2255
 ENV REPORT_FREQUENCY=1000
+ENV LATENCY=120
 RUN echo "'Listening in port $INPUT_PORT'"
 RUN echo "'Transmitting $OUTPUT_MEDIUM signal to $OUTPUT_TARGET in port $OUTPUT_PORT'"
 RUN echo "'Report frequency set to $REPORT_FREQUENCY milliseconds'"
-CMD ./srt/build/srt-live-transmit srt://:$INPUT_PORT $OUTPUT_MEDIUM://$OUTPUT_TARGET:$OUTPUT_PORT -stats-report-frequency $REPORT_FREQUENCY -statsout -pf csv
+CMD ./srt/build/srt-live-transmit "srt://:$INPUT_PORT?latency=$LATENCY" $OUTPUT_MEDIUM://$OUTPUT_TARGET:$OUTPUT_PORT -stats-report-frequency $REPORT_FREQUENCY -statsout -pf csv
