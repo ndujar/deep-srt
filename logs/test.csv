@@ -1,3 +1,5 @@
+Time,SocketID,pktFlowWindow,pktCongestionWindow,pktFlightSize,msRTT,mbpsBandwidth,mbpsMaxBW,pktSent,pktSndLoss,pktSndDrop,pktRetrans,byteSent,byteSndDrop,mbpsSendRate,usPktSndPeriod,pktRecv,pktRcvLoss,pktRcvDrop,pktRcvRetrans,pktRcvBelated,byteRecv,byteRcvLoss,byteRcvDrop,mbpsRecvRate,RCVLATENCYms,pktSndFilterExtra,pktRcvFilterExtra,pktRcvFilterSupply,pktRcvFilterLoss
+3089,306895423,8192,8192,0,0.117,12,1000,0,0,0,0,0,0,0,12,102,0,0,0,0,45472,0,0,0.117752,120,0,0,0,0
 2487,172717996,8163,8192,5,81.739,11.916,1000,98,0,0,0,85904,0,0.276297,9,0,0,0,0,0,0,0,0,0,330,0,0,0,0 
 3782,172717996,8166,8192,7,81.949,11.916,1000,100,0,0,0,85240,0,0.526656,7,0,0,0,0,0,0,0,0,0,330,0,0,0,0 
 5057,172717996,8167,8192,7,80.253,11.916,1000,100,0,0,0,85052,0,0.53353,6,0,0,0,0,0,0,0,0,0,330,0,0,0,0 
