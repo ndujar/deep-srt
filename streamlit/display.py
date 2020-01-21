@@ -13,9 +13,6 @@ import streamlit as st
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from sklearn.metrics import mean_squared_error, mean_absolute_error
-from sklearn.metrics import fbeta_score, roc_curve, auc
-from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 
 st.title('QoE model predictor')
@@ -69,7 +66,7 @@ def plot_scatter(title, x_metric, y_metrics, x_axis_title, y_axis_title, df_aggr
     data = []
     shapes = list()
     for y_metric in y_metrics:
-        data.append(go.Scatter(x=df_aggregated[x_metric],
+        data.append(go.Scatter(x=df_aggregated.index,
                             y=df_aggregated[y_metric],
                             mode='lines',
                             marker=dict(
@@ -137,8 +134,12 @@ def main():
     df_transmitter = df_transmitter[df_transmitter['Time'] > df_receiver['Time'].min()]
     df_receiver = df_receiver[df_receiver['Time'] < df_transmitter['Time'].max()]
 
-    st.write('Mean transmitter delta Time:', np.diff(df_transmitter['Time']).mean())
-    st.write('Mean receiver delta Time:', np.diff(df_receiver['Time']).mean())
+    df_transmitter.set_index('Time', inplace=True)
+    df_receiver.set_index('Time', inplace=True)
+   
+    df_synchronized = df_transmitter.join(df_receiver, how='outer', lsuffix='_transmit', rsuffix='_receive')
+    df_synchronized = df_synchronized.interpolate()
+    df_synchronized['Rate'] = df_synchronized['mbpsSendRate'] / (df_synchronized['mbpsRecvRate'])
 
     # Display datasets
     st.subheader('Raw TRANSMITTER data')
@@ -146,6 +147,12 @@ def main():
 
     st.subheader('Raw RECEIVER data')
     st.write(df_receiver, df_receiver.shape)
+
+    st.subheader('Raw SYNCHRONIZED data')
+    st.write(df_synchronized, df_synchronized.shape)
+
+    st.subheader('Summary SYNCHRONIZED data')
+    st.write(df_synchronized.describe())
 
     plot_scatter('TRANSMITTER Time series',
                  'Time',
@@ -161,10 +168,18 @@ def main():
                  'RECEIVER',
                  df_receiver)
     
+
+    plot_scatter('SYNCHRONIZED Time series',
+                 'Time',
+                 df_synchronized.columns,
+                 'Time',
+                 'RECEIVER',
+                 df_synchronized)
     # Display correlation matrix
     plot_correlation_matrix(df_receiver)
-    # Display correlation matrix
     plot_correlation_matrix(df_transmitter)
+    plot_correlation_matrix(df_synchronized)
+
 if __name__ == '__main__':
 
     main()
