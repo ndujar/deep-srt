@@ -9,10 +9,10 @@ import streamlit as st
 
 
 # TODO: Change filepaths back
-SND_LOGS = 'logs/transmitter.csv'
-RCV_LOGS = 'logs/receiver.csv'
-# SND_LOGS = '/Users/msharabayko/_data/mac_eunorth/local/4-srt-xtransmit-stats-snd.csv'
-# RCV_LOGS = '/Users/msharabayko/_data/mac_eunorth/msharabayko@40.69.89.21/3-srt-xtransmit-stats-rcv.csv'
+# SND_LOGS = 'logs/transmitter.csv'
+# RCV_LOGS = 'logs/receiver.csv'
+SND_LOGS = '/Users/msharabayko/_data/mac_eunorth/local/4-srt-xtransmit-stats-snd.csv'
+RCV_LOGS = '/Users/msharabayko/_data/mac_eunorth/msharabayko@40.69.89.21/3-srt-xtransmit-stats-rcv.csv'
 
 
 # TODO: Uncomment features back
@@ -126,6 +126,13 @@ def main():
     df_snd = load_data(SND_LOGS, 50000)
     df_rcv = load_data(RCV_LOGS, 50000)
 
+    # Display raw datasets
+    st.subheader('Raw SENDER data')
+    st.write(df_snd, df_snd.shape)
+
+    st.subheader('Raw RECEIVER data')
+    st.write(df_rcv, df_rcv.shape)
+
     # Preprocess the datasets to align time series and remove spurious data
     # Filter out zero values
     df_snd = df_snd.loc[:, (df_snd != 0).any(axis=0)]
@@ -144,7 +151,7 @@ def main():
     df_synchronized = df_synchronized.interpolate()
     df_synchronized['Rate'] = df_synchronized['mbpsSendRate'] / (df_synchronized['mbpsRecvRate'])
 
-    # Display datasets
+    # Display processed datasets
     st.subheader('Processed SENDER data')
     st.write(df_snd, df_snd.shape)
 
