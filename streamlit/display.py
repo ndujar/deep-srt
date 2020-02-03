@@ -1,7 +1,7 @@
 """
-Module to generate an interactive app to visualize and train a QoE predictive model
-from data retrieved out of srt-live-transmit protocol stats
-It relies of Streamlite library for the visualization and display of widgets
+Module to generate an interactive app to visualize and train a QoE predictive
+model from data retrieved out of srt-live-transmit application stats.
+It relies on streamlit library for the visualization and display of widgets.
 """
 import pandas as pd
 import plotly.graph_objects as go
