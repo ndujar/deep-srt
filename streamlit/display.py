@@ -147,7 +147,7 @@ def main():
     df_snd.set_index('Time', inplace=True)
     df_rcv.set_index('Time', inplace=True)
    
-    df_synchronized = df_snd.join(df_rcv, how='outer', lsuffix='_transmit', rsuffix='_receive')
+    df_synchronized = df_snd.join(df_rcv, how='outer', lsuffix='_snd', rsuffix='_rcv')
     df_synchronized = df_synchronized.interpolate()
     df_synchronized['Rate'] = df_synchronized['mbpsSendRate'] / (df_synchronized['mbpsRecvRate'])
 
