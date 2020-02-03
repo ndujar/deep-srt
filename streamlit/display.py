@@ -138,8 +138,8 @@ def main():
     df_snd = df_snd.loc[:, (df_snd != 0).any(axis=0)]
     df_rcv = df_rcv.loc[:, (df_rcv != 0).any(axis=0)]
     # Remove NANs
-    df_snd = df_snd.dropna(axis=1)
-    df_rcv = df_rcv.dropna(axis=1)
+    df_snd = df_snd.dropna()
+    df_rcv = df_rcv.dropna()
     # Align time series
     df_snd = df_snd[df_snd['Time'] > df_rcv['Time'].min()]
     df_rcv = df_rcv[df_rcv['Time'] < df_snd['Time'].max()]
