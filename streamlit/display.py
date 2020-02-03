@@ -9,10 +9,10 @@ import streamlit as st
 
 
 # TODO: Change filepaths back
-TRANSMITTER_LOGS = 'logs/transmitter.csv'
-RECEIVER_LOGS = 'logs/receiver.csv'
-# TRANSMITTER_LOGS = '/Users/msharabayko/_data/mac_eunorth/local/4-srt-xtransmit-stats-snd.csv'
-# RECEIVER_LOGS = '/Users/msharabayko/_data/mac_eunorth/msharabayko@40.69.89.21/3-srt-xtransmit-stats-rcv.csv'
+SND_LOGS = 'logs/transmitter.csv'
+RCV_LOGS = 'logs/receiver.csv'
+# SND_LOGS = '/Users/msharabayko/_data/mac_eunorth/local/4-srt-xtransmit-stats-snd.csv'
+# RCV_LOGS = '/Users/msharabayko/_data/mac_eunorth/msharabayko@40.69.89.21/3-srt-xtransmit-stats-rcv.csv'
 
 
 # TODO: Uncomment features back
@@ -123,33 +123,33 @@ def main():
     st.write(FEATURES)
 
     # Get QoE pristine dataset (no attacks)
-    df_transmitter = load_data(TRANSMITTER_LOGS, 50000)
-    df_receiver = load_data(RECEIVER_LOGS, 50000)
+    df_snd = load_data(SND_LOGS, 50000)
+    df_rcv = load_data(RCV_LOGS, 50000)
 
     # Preprocess the datasets to align time series and remove spurious data
     # Filter out zero values
-    df_transmitter = df_transmitter.loc[:, (df_transmitter != 0).any(axis=0)]
-    df_receiver = df_receiver.loc[:, (df_receiver != 0).any(axis=0)]
+    df_snd = df_snd.loc[:, (df_snd != 0).any(axis=0)]
+    df_rcv = df_rcv.loc[:, (df_rcv != 0).any(axis=0)]
     # Remove NANs
-    df_transmitter = df_transmitter.dropna(axis=1)
-    df_receiver = df_receiver.dropna(axis=1)
+    df_snd = df_snd.dropna(axis=1)
+    df_rcv = df_rcv.dropna(axis=1)
     # Align time series
-    df_transmitter = df_transmitter[df_transmitter['Time'] > df_receiver['Time'].min()]
-    df_receiver = df_receiver[df_receiver['Time'] < df_transmitter['Time'].max()]
+    df_snd = df_snd[df_snd['Time'] > df_rcv['Time'].min()]
+    df_rcv = df_rcv[df_rcv['Time'] < df_snd['Time'].max()]
 
-    df_transmitter.set_index('Time', inplace=True)
-    df_receiver.set_index('Time', inplace=True)
+    df_snd.set_index('Time', inplace=True)
+    df_rcv.set_index('Time', inplace=True)
    
-    df_synchronized = df_transmitter.join(df_receiver, how='outer', lsuffix='_transmit', rsuffix='_receive')
+    df_synchronized = df_snd.join(df_rcv, how='outer', lsuffix='_transmit', rsuffix='_receive')
     df_synchronized = df_synchronized.interpolate()
     df_synchronized['Rate'] = df_synchronized['mbpsSendRate'] / (df_synchronized['mbpsRecvRate'])
 
     # Display datasets
-    st.subheader('Processed TRANSMITTER data')
-    st.write(df_transmitter, df_transmitter.shape)
+    st.subheader('Processed SENDER data')
+    st.write(df_snd, df_snd.shape)
 
     st.subheader('Processed RECEIVER data')
-    st.write(df_receiver, df_receiver.shape)
+    st.write(df_rcv, df_rcv.shape)
 
     st.subheader('SYNCHRONIZED data')
     st.write(df_synchronized, df_synchronized.shape)
@@ -158,21 +158,21 @@ def main():
     st.write(df_synchronized.describe())
 
     plot_scatter(
-        'TRANSMITTER Time series',
+        'SENDER Time series',
         'Time',
-        df_transmitter.columns,
+        df_snd.columns,
         'Time',
-        'TRANSMITTER',
-        df_transmitter
+        'SENDER',
+        df_snd
     )
 
     plot_scatter(
         'RECEIVER Time series',
         'Time',
-        df_receiver.columns,
+        df_rcv.columns,
         'Time',
         'RECEIVER',
-        df_receiver
+        df_rcv
     )
 
     plot_scatter(
@@ -185,8 +185,8 @@ def main():
     )
 
     # Display correlation matrixs
-    plot_correlation_matrix(df_receiver)
-    plot_correlation_matrix(df_transmitter)
+    plot_correlation_matrix(df_rcv)
+    plot_correlation_matrix(df_snd)
     plot_correlation_matrix(df_synchronized)
 
 
