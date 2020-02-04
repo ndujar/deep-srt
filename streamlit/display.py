@@ -3,8 +3,10 @@ Module to generate an interactive app to visualize and train a QoE predictive
 model from data retrieved out of srt-live-transmit application stats.
 It relies on streamlit library for the visualization and display of widgets.
 """
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
+import seaborn as sns
 import streamlit as st
 
 
@@ -20,7 +22,7 @@ FEATURES = [
     'Time',
     # 'pktFlowWindow',
     # 'pktCongestionWindow',
-    # 'pktFlightSize',
+    'pktFlightSize',
     'msRTT',
     'mbpsBandwidth',
     'pktSent',
@@ -113,6 +115,14 @@ def plot_correlation_matrix(df_aggregated):
     st.plotly_chart(fig)
 
 
+def plot_corr_matrix(df):
+    """ Alternative implementation of displaying correlation matrix """
+    df = df.pct_change()
+    corr = df.corr(method='spearman')
+    sns.clustermap(corr, cmap='coolwarm')
+    st.pyplot()
+
+
 def main():
     """
     Main function to train and evaluate tamper and QoE models
@@ -192,9 +202,15 @@ def main():
     )
 
     # Display correlation matrixs
+    st.write('Correlation matrixs on levels, Pearson')
     plot_correlation_matrix(df_rcv)
     plot_correlation_matrix(df_snd)
     plot_correlation_matrix(df_synchronized)
+
+    st.write('Correlation matrixs on returns, Spearman')
+    plot_corr_matrix(df_rcv)
+    plot_corr_matrix(df_snd)
+    plot_corr_matrix(df_synchronized)
 
 
 if __name__ == '__main__':
