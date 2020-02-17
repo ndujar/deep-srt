@@ -1,14 +1,22 @@
 FROM ubuntu:latest
 
-RUN apt-get update 
-# Get git and wget
+RUN apt-get update --fix-missing
+
+# Get git
 RUN apt-get install git -y 
-RUN apt-get install wget -y 
 # Get cmake and compiler tools
-RUN apt-get install build-essential cmake -y
-RUN apt-get install libssl-dev -y
-# Get ffmpeg
-RUN apt-get install ffmpeg -y
-# Get srt
-RUN git clone https://github.com/Haivision/srt.git 
-RUN cd srt && mkdir build && cd build && cmake ../ && make
+RUN apt-get install pkg-config cmake libssl-dev build-essential -y
+
+# Get srt xtransmit
+RUN git clone https://github.com/maxsharabayko/srt-xtransmit.git srt-xtransmit
+WORKDIR "srt-xtransmit"
+RUN git submodule init
+RUN git submodule update
+RUN mkdir _build && cd _build
+RUN cmake .
+RUN cmake --build ./
+
+# Get tshark
+RUN apt-get update
+RUN apt-get install -y net-tools
+RUN DEBIAN_FRONTEND=noninteractive apt install -y tshark

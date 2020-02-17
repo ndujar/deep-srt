@@ -1,5 +1,5 @@
 #!/bin/bash
+tshark -i eth0 -f "port $RECEIVER_PORT" -s 1500 -w rc-vSRT.pcapng &
+exec ./bin/srt-xtransmit generate "srt://$RECEIVER_ADDRESS:$RECEIVER_PORT?transtype=live&rcvbuf=1000000000&sndbuf=1000000000" --msgsize 1316 --sendrate $SENDRATE --duration 10s --statsfile /logs/stats-snd.csv --statsfreq $REPORT_FREQUENCY
 
-./srt/build/srt-live-transmit udp://localhost:1234 "$MEDIUM://$RECEIVER_ADDRESS:$RECEIVER_PORT?latency=$LATENCY" -v -stats-report-frequency $REPORT_FREQUENCY -statsout -pf csv &
-exec ffmpeg -f rawvideo -video_size 1280x720 -pixel_format yuv420p -framerate $FFMPEG_BITRATE -i /dev/urandom -codec:a copy -f mpegts "udp://127.0.0.1:1234?pkt_size=1316"
 
